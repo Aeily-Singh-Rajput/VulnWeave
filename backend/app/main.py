@@ -1,3 +1,4 @@
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,6 +13,12 @@ app = FastAPI(
     version="1.0.0",
 )
 
+frontend_origins = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv("FRONTEND_URL", "").split(",")
+    if origin.strip()
+]
+
 # Allow the React frontend to communicate with FastAPI.
 app.add_middleware(
     CORSMiddleware,
@@ -20,6 +27,7 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "http://localhost:5174",
         "http://127.0.0.1:5174",
+        *frontend_origins,
     ],
     allow_credentials=True,
     allow_methods=["*"],

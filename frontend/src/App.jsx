@@ -34,8 +34,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import "./App.css";
 
-const API = "http://127.0.0.1:8000";
-
+const API = (import.meta.env.VITE_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
 const nodePositions = {
   1: { x: 40, y: 190 },
   2: { x: 380, y: 55 },
